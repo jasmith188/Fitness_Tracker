@@ -8,7 +8,7 @@ const app = express();
 
 //GET all workouts
 app.get("/api/workouts", (req, res) => {
-    db.Workout.find({}, async (err, data) => {
+    db.Workout.find({}, (err, data) => {
         if (err) throw err;
         res.json(data);
     });
@@ -36,11 +36,12 @@ app.post("/api/workouts", ({ body },res) => {
 
 //Update a workout
 
-app.put("/workouts/:id", ({ body },res) => {
-    db.Workout.create(body, (err, data) => {
-        if (err) throw err;
-        res.json(data);
+router.put('/:id', function(req, res, next) {
+    console.log(req.body);
+    Book.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+     if (err) return next(err);
+     res.json(post);
     });
-});
+   });
 
 module.exports = app;
