@@ -36,12 +36,16 @@ app.post("/api/workouts", ({ body },res) => {
 
 //Update a workout
 
-router.put('/:id', function(req, res, next) {
+router.put("/api/workouts/:id", function(req, res, next) {
     console.log(req.body);
-    Book.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-     if (err) return next(err);
-     res.json(post);
-    });
-   });
+    Workout.findByIdAndUpdate(req.params.id,
+        { "$push": { "exercises": req.body } },
+        { "new": true, "upsert": true },
+        function (err, data) {
+            if (err) throw err;
+            console.log(data);
+        }
+    );
+});
 
 module.exports = app;
