@@ -6,6 +6,12 @@ const PORT = process.env.PORT || 3000
 const app = express();
 // app.use(logger("dev"))
 
+//Use local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+//Connect to the Mongo DB
+mongoose.connect(MONGODB_URI);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
