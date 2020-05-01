@@ -1,5 +1,5 @@
 const express = require("express")
-const db = require("../models/workout");
+const db = require("../models");
 const app = express();
 
 
@@ -36,14 +36,14 @@ app.post("/api/workouts", ({ body },res) => {
 
 //Update a workout
 
-router.put("/api/workouts/:id", function(req, res, next) {
+app.put("/api/workouts/:id", function(req, res, next) {
     console.log(req.body);
-    Workout.findByIdAndUpdate(req.params.id,
+    db.Workout.findByIdAndUpdate(req.params.id,
         { "$push": { "exercises": req.body } },
         { "new": true, "upsert": true },
         function (err, data) {
             if (err) throw err;
-            console.log(data);
+            res.json(data);
         }
     );
 });
